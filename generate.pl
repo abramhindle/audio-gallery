@@ -37,12 +37,12 @@ if (@ARGV && $ARGV[0] =~ 'json') {
 }
 
 unless ($dontwrite) {
-    open($fd,">", $playlistjson);
+    open(my $fd,">", $playlistjson);
     print  $fd $json->pretty->encode( $playlist ); # pretty-printi
     close($fd);
 }
 
-open($fd,">", "index.html");
+open(my $fd,">", "index.html");
 my $t = HTML::Template->new( filehandle => *DATA, die_on_bad_params => 0,  default_escape => "HTML");
 $t->param(%{$playlist});
 print $fd $t->output;
@@ -157,7 +157,6 @@ window.onload = function() {
             }
         };
     };
-    
     playAll.onclick = function() {
         var audios = document.getElementsByTagName("audio");
         // install play listeners
@@ -169,6 +168,12 @@ window.onload = function() {
 };
 </script>
 <body>
+   <div class="metadata">
+      <h1><TMPL_VAR NAME="name"></h1>
+      <div class="metadesc">
+      <TMPL_VAR ESCAPE="NONE" NAME="description">
+      </div>
+   </div>
    <div class="box">
    <div class="track">
         <button id="playall">Play all tracks</button>
